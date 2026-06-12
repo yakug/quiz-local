@@ -1,3 +1,4 @@
+/* 全体 */
 body {
     font-family: "Rounded Mplus 1c", "Hiragino Maru Gothic ProN", sans-serif;
     background: #fdf7ff; /* ふわっとした薄いピンク */
@@ -7,12 +8,14 @@ body {
     color: #444;
 }
 
+/* タイトル */
 h1 {
     font-size: 28px;
     color: #ff8ac0; /* かわいいピンク */
     margin-bottom: 20px;
 }
 
+/* クイズ全体のカード */
 #quiz-container {
     background: #ffffff;
     padding: 20px;
@@ -22,30 +25,73 @@ h1 {
     margin: 0 auto;
 }
 
-button {
-    background: #ffb6e6;
+/* 問題文を大きく */
+#question-text {
+    font-size: 24px;
+    line-height: 1.6;
+    font-weight: 600;
+    margin: 20px 0;
+}
+
+/* ○×ボタン（共通） */
+.choice-btn {
+    font-size: 26px;        /* 文字大きく */
+    padding: 18px 32px;     /* ボタン大きく */
+    border-radius: 40px;    /* 丸み強め */
+    width: 140px;           /* ボタン幅 */
+    height: 70px;           /* ボタン高さ */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
     border: none;
-    padding: 12px 20px;
-    margin: 10px;
-    border-radius: 30px; /* まるいボタン */
-    font-size: 18px;
     cursor: pointer;
-    color: white;
-    box-shadow: 0 4px 10px rgba(255, 150, 200, 0.3);
+    margin: 10px;
     transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-button:hover {
+/* ○ボタン → ピンク */
+.choice-btn[data-answer="true"] {
     background: #ff9ad9;
-    transform: translateY(-2px);
+    color: white;
 }
 
+/* ×ボタン → ミント */
+.choice-btn[data-answer="false"] {
+    background: #a8f0d5;
+    color: #444;
+}
+
+/* ホバー時のふわっと感 */
+.choice-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* 結果画面の文字 */
 #result {
     font-size: 22px;
     margin-top: 20px;
     color: #ff8ac0;
 }
 
+/* 解説 */
+.explanation-item {
+    text-align: left;
+    margin: 10px 0;
+    padding: 10px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(255, 150, 200, 0.15);
+}
+
+.exp {
+    color: #666;
+    font-size: 14px;
+}
+
+/* 画面切り替え用 */
 .hidden {
     display: none;
 }
