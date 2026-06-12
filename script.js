@@ -16,7 +16,7 @@ async function loadCSV() {
 
         return {
             question: question,
-            answer: answer.trim() === "true",
+            answer: answer.trim().toLowerCase() === "true",
             explanation: explanation
         };
     });
