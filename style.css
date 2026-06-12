@@ -25,6 +25,14 @@ h1 {
     margin: 0 auto;
 }
 
+/* 問題番号 */
+#question-number {
+    font-size: 20px;
+    color: #ff8ac0;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
 /* 問題文を大きく */
 #question-text {
     font-size: 24px;
@@ -47,8 +55,11 @@ h1 {
     border: none;
     cursor: pointer;
     margin: 10px;
-    transition: 0.2s;
+    transition: 0.15s ease-out;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    /* ぽよんアニメの準備 */
+    transform: scale(1);
 }
 
 /* ○ボタン → ピンク */
@@ -63,10 +74,16 @@ h1 {
     color: #444;
 }
 
-/* ホバー時のふわっと感 */
+/* ホバー時：ふわっと浮く */
 .choice-btn:hover {
-    transform: translateY(-3px);
+    transform: translateY(-3px) scale(1.05);
     box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* クリック時：ぽよん */
+.choice-btn:active {
+    transform: scale(0.88);
+    transition: 0.08s;
 }
 
 /* 結果画面の文字 */
@@ -76,7 +93,7 @@ h1 {
     color: #ff8ac0;
 }
 
-/* 解説 */
+/* 解説カード */
 .explanation-item {
     text-align: left;
     margin: 10px 0;
