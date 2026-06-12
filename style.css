@@ -112,3 +112,13 @@ h1 {
 .hidden {
     display: none;
 }
+
+.ranking-item {
+    background: #fff;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(255, 150, 200, 0.15);
+    font-size: 18px;
+}
+
