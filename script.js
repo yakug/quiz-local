@@ -4,7 +4,11 @@ let currentIndex = 0;
 let score = 0;
 let userAnswers = [];
 
-// CSV読み込み
+// ★ ポイント & レベル
+let totalPoints = 0; // 累計ポイント
+let level = 1;       // 現在のレベル
+
+// CSV読み込み（カンマが入っても壊れない方式）
 async function loadCSV() {
     const res = await fetch("questions.csv");
     const text = await res.text();
@@ -12,18 +16,17 @@ async function loadCSV() {
     const lines = text.trim().split("\n");
 
     questions = lines.map(line => {
-    // 最初の2つだけ区切る
-    const firstComma = line.indexOf(",");
-    const secondComma = line.indexOf(",", firstComma + 1);
+        const firstComma = line.indexOf(",");
+        const secondComma = line.indexOf(",", firstComma + 1);
 
-    const question = line.slice(0, firstComma);
-    const answer = line.slice(firstComma + 1, secondComma).trim().toLowerCase();
-    const explanation = line.slice(secondComma + 1);
+        const question = line.slice(0, firstComma);
+        const answer = line.slice(firstComma + 1, secondComma).trim().toLowerCase();
+        const explanation = line.slice(secondComma + 1);
 
-    return {
-        question: question,
-        answer: answer === "true",
-        explanation: explanation
+        return {
+            question: question,
+            answer: answer === "true",
+            explanation: explanation
         };
     });
 }
@@ -45,7 +48,14 @@ document.getElementById("start-btn").addEventListener("click", async () => {
     const name = document.getElementById("username").value;
     if (!name) return alert("ニックネームを入力してね");
 
-    await loadCSV(); // ← CSV読み込み
+    // ★ 保存データ読み込み
+    totalPoints = Number(localStorage.getItem("totalPoints")) || 0;
+    level = Number(localStorage.getItem("level")) || 1;
+
+    // レベル表示
+    document.getElementById("user-level").textContent = `Lv.${level}`;
+
+    await loadCSV();
 
     selectedQuestions = pickRandomQuestions();
     currentIndex = 0;
@@ -77,7 +87,13 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
             explanation: selectedQuestions[currentIndex].explanation
         });
 
-        if (userAnswer === correct) score++;
+        // ★ ポイント処理
+        if (userAnswer === correct) {
+            score++;
+            totalPoints += 3; // 正解は3ポイント
+        } else {
+            totalPoints += 1; // 不正解は1ポイント
+        }
 
         currentIndex++;
 
@@ -91,6 +107,16 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
 
 // 結果表示（解説つき）
 function showResult() {
+    // ★ レベル計算
+    level = Math.floor(totalPoints / 100) + 1;
+
+    // ★ 保存
+    localStorage.setItem("totalPoints", totalPoints);
+    localStorage.setItem("level", level);
+
+    // レベル表示更新
+    document.getElementById("user-level").textContent = `Lv.${level}`;
+
     document.getElementById("score-text").textContent =
         `正解数：${score} / 10（正答率 ${(score / 10 * 100).toFixed(0)}%）`;
 
