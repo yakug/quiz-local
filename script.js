@@ -12,12 +12,18 @@ async function loadCSV() {
     const lines = text.trim().split("\n");
 
     questions = lines.map(line => {
-        const [question, answer, explanation] = line.split(",");
+    // 最初の2つだけ区切る
+    const firstComma = line.indexOf(",");
+    const secondComma = line.indexOf(",", firstComma + 1);
 
-        return {
-            question: question,
-            answer: answer.trim().toLowerCase() === "true",
-            explanation: explanation
+    const question = line.slice(0, firstComma);
+    const answer = line.slice(firstComma + 1, secondComma).trim().toLowerCase();
+    const explanation = line.slice(secondComma + 1);
+
+    return {
+        question: question,
+        answer: answer === "true",
+        explanation: explanation
         };
     });
 }
