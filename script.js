@@ -89,10 +89,10 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
             correctAnswer: correct,
             userAnswer: userAnswer,
             explanation: selectedQuestions[currentIndex].explanation
-        });
+     });
 
         // ★ ポイント処理
-        if (userAnswer === correct) {
+    if (userAnswer === correct) {
     score++;
     totalPoints += 3;
     triggerHitEffect();
@@ -102,12 +102,12 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
         nextQuestion();
     }, 500);
 
-} else {
+  } else {
     totalPoints += 1;
     triggerMissEffect();
-
     nextQuestion();
-}
+  }
+ });
 });
 
 // ★ nextQuestion は if の外に置く！
