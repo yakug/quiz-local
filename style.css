@@ -1,7 +1,7 @@
 /* 全体 */
 body {
     font-family: "Rounded Mplus 1c", "Hiragino Maru Gothic ProN", sans-serif;
-    background: #fdf7ff; /* ふわっとした薄いピンク */
+    background: #fdf7ff;
     margin: 0;
     padding: 20px;
     text-align: center;
@@ -11,7 +11,7 @@ body {
 /* タイトル */
 h1 {
     font-size: 28px;
-    color: #ff8ac0; /* かわいいピンク */
+    color: #ff8ac0;
     margin-bottom: 20px;
 }
 
@@ -19,7 +19,7 @@ h1 {
 #quiz-container {
     background: #ffffff;
     padding: 20px;
-    border-radius: 20px; /* まるいカード */
+    border-radius: 20px;
     box-shadow: 0 4px 12px rgba(255, 150, 200, 0.2);
     max-width: 500px;
     margin: 0 auto;
@@ -33,7 +33,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* 問題文を大きく */
+/* 問題文 */
 #question-text {
     font-size: 24px;
     line-height: 1.6;
@@ -41,13 +41,13 @@ h1 {
     margin: 20px 0;
 }
 
-/* ○×ボタン（共通） */
+/* ○×ボタン */
 .choice-btn {
-    font-size: 26px;        /* 文字大きく */
-    padding: 18px 32px;     /* ボタン大きく */
-    border-radius: 40px;    /* 丸み強め */
-    width: 140px;           /* ボタン幅 */
-    height: 70px;           /* ボタン高さ */
+    font-size: 26px;
+    padding: 18px 32px;
+    border-radius: 40px;
+    width: 140px;
+    height: 70px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -57,36 +57,38 @@ h1 {
     margin: 10px;
     transition: 0.15s ease-out;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-
-    /* ぽよんアニメの準備 */
     transform: scale(1);
+
+    /* ★ ボタンを前面に出す */
+    position: relative;
+    z-index: 10;
 }
 
-/* ○ボタン → ピンク */
+/* ○ボタン */
 .choice-btn[data-answer="true"] {
     background: #ff9ad9;
     color: white;
 }
 
-/* ×ボタン → ミント */
+/* ×ボタン */
 .choice-btn[data-answer="false"] {
     background: #a8f0d5;
     color: #444;
 }
 
-/* ホバー時：ふわっと浮く */
+/* ホバー */
 .choice-btn:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 
-/* クリック時：ぽよん */
+/* クリック */
 .choice-btn:active {
     transform: scale(0.88);
     transition: 0.08s;
 }
 
-/* 結果画面の文字 */
+/* 結果画面 */
 #result {
     font-size: 22px;
     margin-top: 20px;
@@ -108,7 +110,7 @@ h1 {
     font-size: 14px;
 }
 
-/* 画面切り替え用 */
+/* 画面切り替え */
 .hidden {
     display: none;
 }
@@ -131,9 +133,12 @@ h1 {
     margin: 0 auto 20px;
     position: relative;
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+
+    /* ★ 敵を後ろに下げる */
+    z-index: 1;
 }
 
-/* 光る赤い目 */
+/* 赤い目 */
 #enemy::before, #enemy::after {
     content: "";
     position: absolute;
@@ -147,7 +152,7 @@ h1 {
 #enemy::before { left: 30px; }
 #enemy::after { right: 30px; }
 
-/* 角（左右） */
+/* 角 */
 #enemy .horn {
     position: absolute;
     top: -20px;
@@ -159,7 +164,7 @@ h1 {
 #enemy .horn.left { left: -10px; }
 #enemy .horn.right { right: -10px; }
 
-/* 口（白い部分） */
+/* 口 */
 #enemy-mouth {
     position: absolute;
     bottom: 25px;
@@ -171,7 +176,7 @@ h1 {
     border-radius: 0 0 20px 20px;
 }
 
-/* 牙（左右） */
+/* 牙 */
 #enemy-mouth::before, #enemy-mouth::after {
     content: "";
     position: absolute;
@@ -184,7 +189,7 @@ h1 {
 #enemy-mouth::before { left: 12px; }
 #enemy-mouth::after { right: 12px; }
 
-/* 攻撃エフェクト（衝撃波） */
+/* 攻撃エフェクト */
 #hit-effect {
     position: absolute;
     top: 40%;
@@ -201,31 +206,22 @@ h1 {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 6px 25px 6px; /* とげの長さ */
+    border-width: 0 6px 25px 6px;
     border-color: transparent transparent rgba(255, 80, 120, 0.9) transparent;
     transform-origin: bottom center;
 }
+
 .hit-animate {
     animation: spikeBurst 0.45s ease-out forwards;
 }
 
 @keyframes spikeBurst {
-    0% {
-        transform: translate(-50%, -50%) scale(0.2);
-        opacity: 1;
-    }
-    60% {
-        transform: translate(-50%, -50%) scale(1.4);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1.8);
-        opacity: 0;
-    }
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+    60% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
 }
 
-
-/* 不正解エフェクト（赤い揺れ） */
+/* 不正解エフェクト */
 #miss-effect {
     position: absolute;
     top: 40%;
@@ -250,10 +246,10 @@ h1 {
 .enemy-die {
     opacity: 0;
     transform: scale(0.5);
-    pointer-events: none; /* ← これが重要 */
+    pointer-events: none;
 }
 
-/* レベルアップ演出 */
+/* レベルアップ */
 #levelup-effect {
     position: absolute;
     top: 30%;
