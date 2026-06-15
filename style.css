@@ -150,21 +150,32 @@ h1 {
     position: absolute;
     top: 40%;
     left: 50%;
-    width: 20px;
-    height: 20px;
-    background: rgba(255, 100, 150, 0.6);
-    border-radius: 50%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 50px 30px; /* とげの形 */
+    border-color: transparent transparent rgba(255, 0, 80, 0.9) transparent;
     transform: translate(-50%, -50%) scale(0);
     pointer-events: none;
     opacity: 0;
 }
+
 .hit-animate {
     animation: hitEffect 0.5s ease-out forwards;
 }
 @keyframes hitEffect {
-    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
-    70% { transform: translate(-50%, -50%) scale(3); opacity: 0.8; }
-    100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+    0% {
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+        opacity: 1;
+    }
+    70% {
+        transform: translate(-50%, -50%) scale(1.8) rotate(20deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2.2) rotate(40deg);
+        opacity: 0;
+    }
 }
 
 /* 不正解エフェクト（赤い揺れ） */
