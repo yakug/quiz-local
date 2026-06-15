@@ -121,7 +121,8 @@ h1 {
     box-shadow: 0 2px 6px rgba(255, 150, 200, 0.15);
     font-size: 18px;
 }
-/* 敵（モンスター風シルエット） */
+
+/* 敵本体 */
 #enemy {
     width: 140px;
     height: 140px;
@@ -132,51 +133,97 @@ h1 {
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
-/* 目 */
+/* 光る赤い目 */
 #enemy::before, #enemy::after {
     content: "";
     position: absolute;
     top: 40px;
-    width: 20px;
-    height: 20px;
-    background: white;
+    width: 25px;
+    height: 25px;
+    background: red;
     border-radius: 50%;
+    box-shadow: 0 0 12px red;
 }
-#enemy::before { left: 35px; }
-#enemy::after { right: 35px; }
+#enemy::before { left: 30px; }
+#enemy::after { right: 30px; }
+
+/* 角（左右） */
+#enemy .horn {
+    position: absolute;
+    top: -20px;
+    width: 45px;
+    height: 45px;
+    background: #333;
+    transform: rotate(45deg);
+}
+#enemy .horn.left { left: -10px; }
+#enemy .horn.right { right: -10px; }
+
+/* 口（白い部分） */
+#enemy-mouth {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    width: 70px;
+    height: 25px;
+    background: white;
+    transform: translateX(-50%);
+    border-radius: 0 0 20px 20px;
+}
+
+/* 牙（左右） */
+#enemy-mouth::before, #enemy-mouth::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 12px 6px 0 6px;
+    border-color: white transparent transparent transparent;
+}
+#enemy-mouth::before { left: 12px; }
+#enemy-mouth::after { right: 12px; }
 
 /* 攻撃エフェクト（衝撃波） */
 #hit-effect {
     position: absolute;
     top: 40%;
     left: 50%;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 30px 50px 30px; /* とげの形 */
-    border-color: transparent transparent rgba(255, 0, 80, 0.9) transparent;
+    width: 120px;
+    height: 120px;
     transform: translate(-50%, -50%) scale(0);
     pointer-events: none;
     opacity: 0;
 }
 
-.hit-animate {
-    animation: hitEffect 0.5s ease-out forwards;
+#hit-effect .spike {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 6px 25px 6px; /* とげの長さ */
+    border-color: transparent transparent rgba(255, 80, 120, 0.9) transparent;
+    transform-origin: bottom center;
 }
-@keyframes hitEffect {
+.hit-animate {
+    animation: spikeBurst 0.45s ease-out forwards;
+}
+
+@keyframes spikeBurst {
     0% {
-        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+        transform: translate(-50%, -50%) scale(0.2);
         opacity: 1;
     }
-    70% {
-        transform: translate(-50%, -50%) scale(1.8) rotate(20deg);
-        opacity: 0.9;
+    60% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 1;
     }
     100% {
-        transform: translate(-50%, -50%) scale(2.2) rotate(40deg);
+        transform: translate(-50%, -50%) scale(1.8);
         opacity: 0;
     }
 }
+
 
 /* 不正解エフェクト（赤い揺れ） */
 #miss-effect {
