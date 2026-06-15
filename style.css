@@ -194,31 +194,29 @@ h1 {
     position: absolute;
     top: 40%;
     left: 50%;
-    width: 120px;
-    height: 120px;
-    transform: translate(-50%, -50%) scale(0);
-    pointer-events: none;
-    opacity: 0;
-}
-
-#hit-effect .spike {
-    position: absolute;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 6px 25px 6px;
+    border-width: 0 20px 40px 20px; /* 三角形の大きさ */
     border-color: transparent transparent rgba(255, 80, 120, 0.9) transparent;
-    transform-origin: bottom center;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none; /* ← これが重要 */
 }
 
 .hit-animate {
-    animation: spikeBurst 0.45s ease-out forwards;
+    animation: hitEffect 0.4s ease-out forwards;
 }
 
-@keyframes spikeBurst {
-    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
-    60% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+@keyframes hitEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
 }
 
 /* 不正解エフェクト */
