@@ -68,6 +68,10 @@ document.getElementById("start-btn").addEventListener("click", async () => {
 
 // 問題読み込み
 function loadQuestion() {
+// ★ 敵を復活させる
+    const enemy = document.getElementById("enemy");
+    enemy.classList.remove("enemy-die");
+
     const q = selectedQuestions[currentIndex];
     document.getElementById("question-number").textContent = `${currentIndex + 1} / 10`;
     document.getElementById("question-text").textContent = q.question;
