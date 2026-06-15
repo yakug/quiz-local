@@ -111,9 +111,7 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
 // 結果表示（解説つき）
 function showResult() {
     // ★ レベル計算
-    level = Math.floor(totalPoints / 100) + 1;
-
-    const oldLevel = Number(localStorage.getItem("level")) || 1;
+       const oldLevel = Number(localStorage.getItem("level")) || 1;
     level = Math.floor(totalPoints / 100) + 1;
 
     if (level > oldLevel) {
