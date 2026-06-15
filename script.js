@@ -5,10 +5,10 @@ let score = 0;
 let userAnswers = [];
 
 // ★ ポイント & レベル
-let totalPoints = 0; // 累計ポイント
-let level = 1;       // 現在のレベル
+let totalPoints = 0;
+let level = 1;
 
-// CSV読み込み（カンマが入っても壊れない方式）
+// CSV読み込み
 async function loadCSV() {
     const res = await fetch("questions.csv");
     const text = await res.text();
@@ -31,7 +31,7 @@ async function loadCSV() {
     });
 }
 
-// 10問ランダム抽選
+// ランダム10問
 function pickRandomQuestions() {
     const shuffled = [...questions].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, 10);
@@ -48,11 +48,9 @@ document.getElementById("start-btn").addEventListener("click", async () => {
     const name = document.getElementById("username").value;
     if (!name) return alert("ニックネームを入力してね");
 
-    // ★ 保存データ読み込み
     totalPoints = Number(localStorage.getItem("totalPoints")) || 0;
     level = Number(localStorage.getItem("level")) || 1;
 
-    // レベル表示
     document.getElementById("user-level").textContent = `Lv.${level}`;
 
     await loadCSV();
@@ -68,7 +66,6 @@ document.getElementById("start-btn").addEventListener("click", async () => {
 
 // 問題読み込み
 function loadQuestion() {
-// ★ 敵を復活させる
     const enemy = document.getElementById("enemy");
     enemy.classList.remove("enemy-die");
 
@@ -80,37 +77,35 @@ function loadQuestion() {
 // ○×ボタン
 document.querySelectorAll(".choice-btn").forEach(btn => {
     btn.addEventListener("click", () => {
+
         const userAnswer = btn.dataset.answer === "true";
         const correct = selectedQuestions[currentIndex].answer;
 
-        // 解説用に記録
         userAnswers.push({
             question: selectedQuestions[currentIndex].question,
             correctAnswer: correct,
             userAnswer: userAnswer,
             explanation: selectedQuestions[currentIndex].explanation
-     });
+        });
 
-        // ★ ポイント処理
-    if (userAnswer === correct) {
-    score++;
-    totalPoints += 3;
-    triggerHitEffect();
+        if (userAnswer === correct) {
+            score++;
+            totalPoints += 3;
+            triggerHitEffect();
 
-    // ★ 攻撃エフェクトが終わるまで待つ
-    setTimeout(() => {
-        nextQuestion();
-    }, 500);
+            setTimeout(() => {
+                nextQuestion();
+            }, 500);
 
-  } else {
-    totalPoints += 1;
-    triggerMissEffect();
-    nextQuestion();
-  }
- });
+        } else {
+            totalPoints += 1;
+            triggerMissEffect();
+            nextQuestion();
+        }
+    });
 });
 
-// ★ nextQuestion は if の外に置く！
+// ★ 次の問題へ
 function nextQuestion() {
     currentIndex++;
 
@@ -121,22 +116,18 @@ function nextQuestion() {
     }
 }
 
-    
-// 結果表示（解説つき）
+// 結果表示
 function showResult() {
-    // ★ レベル計算
-       const oldLevel = Number(localStorage.getItem("level")) || 1;
+    const oldLevel = Number(localStorage.getItem("level")) || 1;
     level = Math.floor(totalPoints / 100) + 1;
 
     if (level > oldLevel) {
-    triggerLevelUp(); // ★レベルアップ演出
-}
+        triggerLevelUp();
+    }
 
-    // ★ 保存
     localStorage.setItem("totalPoints", totalPoints);
     localStorage.setItem("level", level);
 
-    // レベル表示更新
     document.getElementById("user-level").textContent = `Lv.${level}`;
 
     document.getElementById("score-text").textContent =
@@ -161,15 +152,15 @@ function showResult() {
     });
 
     showScreen("result-screen");
-// ★ ランキングに送信
-fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec", {
-    method: "POST",
-    body: JSON.stringify({
-        name: document.getElementById("username").value,
-        level: level,
-        points: totalPoints
-    })
-});
+
+    fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            name: document.getElementById("username").value,
+            level: level,
+            points: totalPoints
+        })
+    });
 }
 
 // もう一度
@@ -177,13 +168,12 @@ document.getElementById("restart-btn").addEventListener("click", () => {
     showScreen("start-screen");
 });
 
-// ランキング画面を開く
+// ランキング
 document.getElementById("ranking-btn").addEventListener("click", () => {
     showScreen("ranking-screen");
     loadRanking();
 });
 
-// 戻るボタン
 document.getElementById("back-btn").addEventListener("click", () => {
     showScreen("start-screen");
 });
@@ -193,7 +183,7 @@ async function loadRanking() {
     document.getElementById("ranking-info").textContent = "読み込み中…";
 
     try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec"); // ← 後で作る
+        const res = await fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec");
         const data = await res.json();
 
         const listDiv = document.getElementById("ranking-list");
@@ -215,6 +205,8 @@ async function loadRanking() {
         document.getElementById("ranking-info").textContent = "読み込みに失敗しました";
     }
 }
+
+// エフェクト
 function triggerHitEffect() {
     const enemy = document.getElementById("enemy");
     const effect = document.getElementById("hit-effect");
@@ -253,4 +245,3 @@ function triggerLevelUp() {
         effect.classList.remove("levelup-animate");
     }, 1000);
 }
-
