@@ -250,6 +250,7 @@ h1 {
 .enemy-die {
     opacity: 0;
     transform: scale(0.5);
+    pointer-events: none; /* ← これが重要 */
 }
 
 /* レベルアップ演出 */

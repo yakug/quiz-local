@@ -106,9 +106,11 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
     totalPoints += 1;
     triggerMissEffect();
 
-    // 不正解はすぐ次へ
     nextQuestion();
 }
+});
+
+// ★ nextQuestion は if の外に置く！
 function nextQuestion() {
     currentIndex++;
 
@@ -119,6 +121,7 @@ function nextQuestion() {
     }
 }
 
+    
 // 結果表示（解説つき）
 function showResult() {
     // ★ レベル計算
