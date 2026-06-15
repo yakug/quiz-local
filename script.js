@@ -95,22 +95,29 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
         if (userAnswer === correct) {
     score++;
     totalPoints += 3;
-    triggerHitEffect(); // ★攻撃エフェクト
+    triggerHitEffect();
+
+    // ★ 攻撃エフェクトが終わるまで待つ
+    setTimeout(() => {
+        nextQuestion();
+    }, 500);
+
 } else {
     totalPoints += 1;
-    triggerMissEffect(); // ★不正解エフェクト
+    triggerMissEffect();
+
+    // 不正解はすぐ次へ
+    nextQuestion();
 }
+function nextQuestion() {
+    currentIndex++;
 
-
-        currentIndex++;
-
-        if (currentIndex < 10) {
-            loadQuestion();
-        } else {
-            showResult();
-        }
-    });
-});
+    if (currentIndex < 10) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
 
 // 結果表示（解説つき）
 function showResult() {
@@ -183,7 +190,7 @@ async function loadRanking() {
     document.getElementById("ranking-info").textContent = "読み込み中…";
 
     try {
-        const res = await fetch("YOUR_GAS_WEBAPP_URL"); // ← 後で作る
+        const res = await fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec"); // ← 後で作る
         const data = await res.json();
 
         const listDiv = document.getElementById("ranking-list");
