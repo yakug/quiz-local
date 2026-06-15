@@ -121,4 +121,98 @@ h1 {
     box-shadow: 0 2px 6px rgba(255, 150, 200, 0.15);
     font-size: 18px;
 }
+/* 敵（モンスター風シルエット） */
+#enemy {
+    width: 140px;
+    height: 140px;
+    background: #333;
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    position: relative;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* 目 */
+#enemy::before, #enemy::after {
+    content: "";
+    position: absolute;
+    top: 40px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+}
+#enemy::before { left: 35px; }
+#enemy::after { right: 35px; }
+
+/* 攻撃エフェクト（衝撃波） */
+#hit-effect {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 100, 150, 0.6);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    opacity: 0;
+}
+.hit-animate {
+    animation: hitEffect 0.5s ease-out forwards;
+}
+@keyframes hitEffect {
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+    70% { transform: translate(-50%, -50%) scale(3); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+}
+
+/* 不正解エフェクト（赤い揺れ） */
+#miss-effect {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 0, 0, 0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    opacity: 0;
+}
+.miss-animate {
+    animation: missEffect 0.4s ease-out forwards;
+}
+@keyframes missEffect {
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+/* 敵が消える */
+.enemy-die {
+    opacity: 0;
+    transform: scale(0.5);
+}
+
+/* レベルアップ演出 */
+#levelup-effect {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    font-weight: bold;
+    color: gold;
+    text-shadow: 0 0 10px orange;
+    opacity: 0;
+    pointer-events: none;
+}
+.levelup-animate {
+    animation: levelUp 1s ease-out forwards;
+}
+@keyframes levelUp {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
 

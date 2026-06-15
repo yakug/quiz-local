@@ -89,11 +89,14 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
 
         // ★ ポイント処理
         if (userAnswer === correct) {
-            score++;
-            totalPoints += 3; // 正解は3ポイント
-        } else {
-            totalPoints += 1; // 不正解は1ポイント
-        }
+    score++;
+    totalPoints += 3;
+    triggerHitEffect(); // ★攻撃エフェクト
+} else {
+    totalPoints += 1;
+    triggerMissEffect(); // ★不正解エフェクト
+}
+
 
         currentIndex++;
 
@@ -109,6 +112,13 @@ document.querySelectorAll(".choice-btn").forEach(btn => {
 function showResult() {
     // ★ レベル計算
     level = Math.floor(totalPoints / 100) + 1;
+
+    const oldLevel = Number(localStorage.getItem("level")) || 1;
+    level = Math.floor(totalPoints / 100) + 1;
+
+    if (level > oldLevel) {
+    triggerLevelUp(); // ★レベルアップ演出
+}
 
     // ★ 保存
     localStorage.setItem("totalPoints", totalPoints);
@@ -192,5 +202,43 @@ async function loadRanking() {
     } catch (e) {
         document.getElementById("ranking-info").textContent = "読み込みに失敗しました";
     }
+}
+function triggerHitEffect() {
+    const enemy = document.getElementById("enemy");
+    const effect = document.getElementById("hit-effect");
+    const sound = document.getElementById("hit-sound");
+
+    enemy.classList.add("enemy-die");
+    effect.classList.add("hit-animate");
+    sound.play();
+
+    setTimeout(() => {
+        enemy.classList.remove("enemy-die");
+        effect.classList.remove("hit-animate");
+    }, 500);
+}
+
+function triggerMissEffect() {
+    const effect = document.getElementById("miss-effect");
+    const sound = document.getElementById("miss-sound");
+
+    effect.classList.add("miss-animate");
+    sound.play();
+
+    setTimeout(() => {
+        effect.classList.remove("miss-animate");
+    }, 400);
+}
+
+function triggerLevelUp() {
+    const effect = document.getElementById("levelup-effect");
+    const sound = document.getElementById("levelup-sound");
+
+    effect.classList.add("levelup-animate");
+    sound.play();
+
+    setTimeout(() => {
+        effect.classList.remove("levelup-animate");
+    }, 1000);
 }
 
