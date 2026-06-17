@@ -190,34 +190,60 @@ h1 {
 #enemy-mouth::after { right: 12px; }
 
 /* 攻撃エフェクト */
+/* ギザギザ衝撃波（小さめ・安全版） */
 #hit-effect {
     position: absolute;
-    top: 40%;
+    top: 25%; /* ← ここが最適位置（敵の少し上） */
     left: 50%;
+    width: 80px;
+    height: 80px;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+
+    pointer-events: none; /* ← 絶対にクリックを邪魔しない */
+    z-index: 1;           /* ← ボタンより後ろ */
+}
+
+#hit-effect .spike {
+    position: absolute;
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 0 20px 40px 20px; /* 三角形の大きさ */
+    border-width: 0 4px 18px 4px; /* ← 小さめのとげ */
     border-color: transparent transparent rgba(255, 80, 120, 0.9) transparent;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    pointer-events: none; /* ← これが重要 */
+    transform-origin: bottom center;
+    pointer-events: none; /* ← spike も完全無効化 */
 }
+
+/* 8方向に配置 */
+#hit-effect .spike:nth-child(1) { transform: rotate(0deg); }
+#hit-effect .spike:nth-child(2) { transform: rotate(45deg); }
+#hit-effect .spike:nth-child(3) { transform: rotate(90deg); }
+#hit-effect .spike:nth-child(4) { transform: rotate(135deg); }
+#hit-effect .spike:nth-child(5) { transform: rotate(180deg); }
+#hit-effect .spike:nth-child(6) { transform: rotate(225deg); }
+#hit-effect .spike:nth-child(7) { transform: rotate(270deg); }
+#hit-effect .spike:nth-child(8) { transform: rotate(315deg); }
 
 .hit-animate {
-    animation: hitEffect 0.4s ease-out forwards;
+    animation: spikeBurstSmall 0.45s ease-out forwards;
 }
 
-@keyframes hitEffect {
+@keyframes spikeBurstSmall {
     0% {
         transform: translate(-50%, -50%) scale(0.2);
         opacity: 1;
     }
+    60% {
+        transform: translate(-50%, -50%) scale(1.0); /* ← 小さめ */
+        opacity: 1;
+    }
     100% {
-        transform: translate(-50%, -50%) scale(1.5);
+        transform: translate(-50%, -50%) scale(1.3);
         opacity: 0;
     }
 }
+
 
 /* 不正解エフェクト */
 #miss-effect {
