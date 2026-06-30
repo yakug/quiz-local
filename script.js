@@ -152,13 +152,6 @@ function showResult() {
     });
 
     showScreen("result-screen");
-
-   
-            name: document.getElementById("username").value,
-            level: level,
-            points: totalPoints
-        })
-    });
 }
 
 // もう一度
