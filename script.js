@@ -153,9 +153,7 @@ function showResult() {
 
     showScreen("result-screen");
 
-    fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec", {
-        method: "POST",
-        body: JSON.stringify({
+   
             name: document.getElementById("username").value,
             level: level,
             points: totalPoints
@@ -168,43 +166,7 @@ document.getElementById("restart-btn").addEventListener("click", () => {
     showScreen("start-screen");
 });
 
-// ランキング
-document.getElementById("ranking-btn").addEventListener("click", () => {
-    showScreen("ranking-screen");
-    loadRanking();
-});
 
-document.getElementById("back-btn").addEventListener("click", () => {
-    showScreen("start-screen");
-});
-
-// ランキング読み込み
-async function loadRanking() {
-    document.getElementById("ranking-info").textContent = "読み込み中…";
-
-    try {
-        const res = await fetch("https://script.google.com/macros/s/AKfycbxphhWOd1iKAjZm7PsePDzE-LWz0hf1ga8Ki8Dm7Yrr874qiej9ZoC4u7ULddKpEA/exec");
-        const data = await res.json();
-
-        const listDiv = document.getElementById("ranking-list");
-        listDiv.innerHTML = "";
-
-        data.forEach((item, index) => {
-            const div = document.createElement("div");
-            div.classList.add("ranking-item");
-
-            div.innerHTML = `
-                <p><strong>${index + 1}位</strong> ${item.name} — Lv.${item.level}</p>
-            `;
-
-            listDiv.appendChild(div);
-        });
-
-        document.getElementById("ranking-info").textContent = "";
-    } catch (e) {
-        document.getElementById("ranking-info").textContent = "読み込みに失敗しました";
-    }
-}
 
 // エフェクト
 function triggerHitEffect() {
